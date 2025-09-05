@@ -1,0 +1,55 @@
+import tkinter as tk
+from tkinter import messagebox
+
+tasks = []
+
+def add_task():
+    task = entry.get()
+    if task != "":
+        tasks.append(task)
+        listbox.insert(tk.END, task)
+        entry.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Warning", "Task cannot be empty!")
+
+def delete_task():
+    try:
+        index = listbox.curselection()[0]
+        listbox.delete(index)
+        tasks.pop(index)
+    except:
+        messagebox.showwarning("Warning", "Select a task to delete")
+
+root = tk.Tk()
+root.title("To-Do List")
+root.geometry("400x400")
+root.config(bg="#f0f4f7")
+
+header = tk.Label(root, text=" To-Do List", font=("Arial", 18, "bold"), bg="#4682B4", fg="white", pady=10)
+header.pack(fill=tk.X)
+
+frame = tk.Frame(root, bg="#f0f4f7")
+frame.pack(pady=10)
+
+listbox = tk.Listbox(frame, width=40, height=10, font=("Arial", 12), bd=2, relief="groove")
+listbox.pack(side=tk.LEFT, padx=5)
+
+scrollbar = tk.Scrollbar(frame)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+listbox.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=listbox.yview)
+
+entry = tk.Entry(root, width=40, font=("Arial", 12))
+entry.pack(pady=10)
+
+btn_frame = tk.Frame(root, bg="#f0f4f7")
+btn_frame.pack()
+
+add_btn = tk.Button(btn_frame, text=" Add Task", command=add_task, bg="#4CAF50", fg="white", font=("Arial", 12, "bold"), padx=10, pady=5)
+add_btn.grid(row=0, column=0, padx=5)
+
+del_btn = tk.Button(btn_frame, text=" Delete Task", command=delete_task, bg="#E74C3C", fg="white", font=("Arial", 12, "bold"), padx=10, pady=5)
+del_btn.grid(row=0, column=1, padx=5)
+
+root.mainloop()
